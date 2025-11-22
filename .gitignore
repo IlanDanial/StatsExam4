@@ -1,0 +1,44 @@
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# VS Code
+.vscode/c_cpp_properties.json
+.vscode/.browse.c_cpp.db*
+
+# Temporary files
+*~
+*.swp
+*.swo
+
+# Build directories
+build/
+dist/
+
+# Font cache files
+*.fdb_latexmk
+*.fls
+
+# Generated PDFs (optional - you might want to keep these)
+# *.pdf

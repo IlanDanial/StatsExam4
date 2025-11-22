@@ -1,0 +1,496 @@
+\documentclass[8pt, a4paper]{extarticle}
+
+% --- COMPACT MARGINS ---
+\usepackage[a4paper, top=0.5cm, bottom=0.5cm, left=0.5cm, right=0.5cm, columnsep=0.4cm]{geometry}
+
+% --- PACKAGES ---
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage[skip=1pt plus 1pt minus 1pt]{parskip}
+\usepackage[shortlabels]{enumitem}
+\setlist{nosep, leftmargin=*, itemsep=0pt, parsep=0pt, topsep=0pt, partopsep=0pt}
+
+% --- TIGHT SPACING ---
+\setlength{\abovedisplayskip}{1pt plus 1pt minus 1pt}
+\setlength{\belowdisplayskip}{1pt plus 1pt minus 1pt}
+\setlength{\intextsep}{2pt plus 1pt minus 1pt}
+\setlength{\textfloatsep}{2pt plus 1pt minus 1pt}
+\linespread{0.88}
+
+\usepackage{hyperref}
+
+% --- TITLE ---
+\title{}
+\author{}
+\date{}
+
+% --- CUSTOM COMMANDS ---
+\newcommand{\partheading}[1]{%
+    \par\vspace{2pt plus 1pt minus 1pt}
+    \noindent\small\bfseries #1
+    \par\vspace{1pt}
+}
+
+\newcommand{\subhead}[1]{%
+    \par\vspace{1pt}
+    \noindent\small\textbf{#1}
+    \par
+}
+
+\newcommand{\marker}{$\triangleright$~}
+
+\begin{document}
+
+\pagestyle{empty}
+\raggedright
+\vspace{-0.5cm}
+
+{\normalsize\bfseries MGFs \& Continuous R.V.s Cheat Sheet} \quad {\footnotesize Sections 3.9-3.10, 4.2-4.7, 4.9-4.10}
+\vspace{2pt}
+
+\hrule
+\vspace{1pt}
+
+\begin{multicols}{2}
+
+\partheading{PART 1: MGFs (Sec 3.9, 4.9)}
+
+\subhead{Definition \& Core Concept}
+$m(t) = E[e^{tY}]$ packages all moments about origin
+\par
+\textbf{Discrete:} $m(t) = \sum e^{ty} p(y)$ \quad \textbf{Continuous:} $m(t) = \int e^{ty} f(y) dy$
+
+\subhead{\marker Property 1: Generate Moments}
+$\mu'_k = m^{(k)}(0) = \frac{d^k}{dt^k}m(t)\big|_{t=0}$
+\par
+\textbf{Mean:} $\mu = m'(0)$ \quad \textbf{E(Y²):} $E(Y^2) = m''(0)$
+\par
+\textbf{Variance:} $\sigma^2 = m''(0) - [m'(0)]^2$
+
+\subhead{\marker Property 2: Uniqueness Theorem}
+If $m_X(t) = m_Y(t)$, then $X$ and $Y$ have same distribution. Use to \textbf{identify distributions}.
+
+\subhead{Advanced Properties}
+\textbf{Linear Transform:} $m_{aY+b}(t) = e^{tb}m_Y(at)$
+\par
+\textbf{Sum of Independent:} $m_{X+Y}(t) = m_X(t) \cdot m_Y(t)$
+
+\subhead{Example: Poisson MGF $\to$ $\mu, \sigma^2$}
+Given $m(t) = e^{\lambda(e^t-1)}$
+\par
+$m'(t) = \lambda e^t e^{\lambda(e^t-1)} \implies m'(0) = \lambda$
+\par
+$m''(t) = (\lambda e^t)^2 e^{\lambda(e^t-1)} + \lambda e^t e^{\lambda(e^t-1)}$
+\par
+$m''(0) = \lambda^2 + \lambda \implies \sigma^2 = (\lambda^2+\lambda) - \lambda^2 = \lambda$
+
+\subhead{Example: Sum of Independent Poissons}
+$X \sim \text{Pois}(\lambda_1)$, $Y \sim \text{Pois}(\lambda_2)$ independent. Find dist. of $W = X+Y$.
+\par
+$m_W(t) = m_X(t)m_Y(t) = e^{\lambda_1(e^t-1)} \cdot e^{\lambda_2(e^t-1)} = e^{(\lambda_1+\lambda_2)(e^t-1)}$
+\par
+By uniqueness: $W \sim \text{Pois}(\lambda_1 + \lambda_2)$
+
+\subhead{Example: Linear Transform}
+$Y$ has $m_Y(t) = \frac{0.16}{0.16-t}$. Find $M_W(t)$ for $W = 0.7Y$.
+\par
+$m_W(t) = m_Y(0.7t) = \frac{0.16}{0.16-0.7t}$
+
+\subhead{Example: Sum $J + K + L$ (Gamma)}
+$M_J(t) = (1-2t)^{-3}$, $M_K(t) = (1-2t)^{-2.5}$, $M_L(t) = (1-2t)^{-4.5}$
+\par
+$m_X(t) = (1-2t)^{-3}(1-2t)^{-2.5}(1-2t)^{-4.5} = (1-2t)^{-10}$
+\par
+Therefore $X \sim$ Gamma$(10, 2)$
+
+\subhead{\marker Distribution Identification by MGF}
+\textbf{Discrete:}
+\par
+$(pe^t+q)^n \to$ Binomial$(n,p)$ \quad $e^{\lambda(e^t-1)} \to$ Poisson$(\lambda)$
+\par
+\textbf{Continuous:}
+\par
+$(1-\beta t)^{-\alpha} \to$ Gamma$(\alpha,\beta)$ \quad $(1-\beta t)^{-1} \to$ Exp$(\beta)$
+\par
+$(1-2t)^{-v/2} \to \chi^2(v)$ \quad $e^{\mu t + \frac{1}{2}\sigma^2 t^2} \to$ Normal$(\mu,\sigma^2)$
+
+\partheading{PART 2: PGFs (Sec 3.10)}
+
+\subhead{Definition (Non-negative integers only)}
+$P(t) = E[t^Y] = \sum p(y)t^y$ \quad ($y=0,1,2,\dots$)
+
+\subhead{\marker Generate Probabilities}
+$p(k) = \text{coeff of } t^k$ \quad or \quad $p(k) = \frac{1}{k!}P^{(k)}(0)$
+
+\subhead{\marker Generate Factorial Moments}
+$\mu_{[k]} = E[Y(Y-1)\cdots(Y-k+1)] = P^{(k)}(1)$
+\par
+\textbf{Mean:} $\mu = P'(1)$ \quad \textbf{Variance:} $\sigma^2 = P''(1) + P'(1) - [P'(1)]^2$
+
+\subhead{PGF Table}
+\scriptsize
+\begin{tabular}{@{}ll@{}}
+\textbf{Distribution} & \textbf{PGF} \\
+Binomial($n,p$) & $(pt+q)^n$ \\
+Geometric($p$) & $\frac{pt}{1-qt}$ \\
+Poisson($\lambda$) & $e^{\lambda(t-1)}$ \\
+\end{tabular}
+\normalsize
+
+\subhead{\marker MGF vs PGF}
+$m(t) = P(e^t)$ \quad $P(t) = m(\ln t)$
+\par
+MGF: Evaluate at $t=0$ \quad PGF: Evaluate at $t=1$
+
+\partheading{PART 3: CONTINUOUS R.V.s (Sec 4.2)}
+
+\subhead{\marker Key Concept}
+$P(Y=y) = 0$ for all $y$. Only intervals have probability.
+\par
+$P(a \le Y \le b) = P(a < Y < b)$ (inequalities equivalent)
+
+\subhead{CDF: $F(y) = P(Y \le y)$}
+\textbf{Properties:} (1) $F(-\infty)=0$, $F(\infty)=1$ (2) Non-decreasing (3) Continuous
+\par
+\textbf{Find Probability:} $P(a < Y \le b) = F(b) - F(a)$
+
+\subhead{PDF: $f(y) = F'(y)$}
+\textbf{Valid if:} (1) $f(y) \ge 0$ (2) $\int_{-\infty}^{\infty} f(y)dy = 1$
+\par
+\textbf{Probability:} $P(a \le Y \le b) = \int_a^b f(y)dy$
+
+\subhead{\marker CDF $\leftrightarrow$ PDF}
+$F(y) = \int_{-\infty}^y f(t)dt$ \quad $f(y) = \frac{d}{dy}F(y)$
+
+\subhead{Example: $f(y) = 3y^2$ for $0 \le y \le 1$, find $F(y)$}
+$F(y) = \begin{cases} 0 & y<0 \\ \int_0^y 3t^2 dt = y^3 & 0 \le y \le 1 \\ 1 & y>1 \end{cases}$
+\par
+Check: $P(0.5 \le Y \le 0.8) = F(0.8)-F(0.5) = 0.512-0.125 = \mathbf{0.387}$
+
+\subhead{Quantiles (Percentiles)}
+$p$-th quantile $\phi_p$: Solve $F(\phi_p) = p$
+\par
+\textbf{Median:} $\phi_{0.5}$ where $F(\phi_{0.5}) = 0.5$
+
+\partheading{PART 4: EXPECTED VALUES (Sec 4.3)}
+
+\subhead{\marker Main Formula}
+$E[g(Y)] = \int_{-\infty}^{\infty} g(y)f(y)dy$
+
+\subhead{Key Expectations}
+\textbf{Mean:} $\mu = E(Y) = \int yf(y)dy$
+\par
+\textbf{E(Y²):} $E(Y^2) = \int y^2 f(y)dy$
+\par
+\textbf{Variance:} $\sigma^2 = E(Y^2) - [E(Y)]^2$
+
+\subhead{Example: $f(y) = 3y^2$ for $0 \le y \le 1$}
+$E(Y) = \int_0^1 y(3y^2)dy = \int_0^1 3y^3 dy = [\frac{3y^4}{4}]_0^1 = \mathbf{3/4}$
+\par
+$E(Y^2) = \int_0^1 y^2(3y^2)dy = [\frac{3y^5}{5}]_0^1 = \mathbf{3/5}$
+\par
+$\sigma^2 = 3/5 - (3/4)^2 = 3/5 - 9/16 = \mathbf{3/80}$
+
+\subhead{Properties (Linearity)}
+$E(c) = c$ \quad $E(aY+b) = aE(Y)+b$ \quad $V(aY+b) = a^2V(Y)$
+
+\subhead{Example: Cost Function (Beta)}
+$Y \sim$ Beta$(1,2)$, Cost $C = 10 + 20Y + 4Y^2$. Find $E(C)$.
+\par
+$E(C) = 10 + 20E(Y) + 4E(Y^2)$
+\par
+Beta: $E(Y) = \frac{1}{3}$, $V(Y) = \frac{1}{18} \implies E(Y^2) = \frac{1}{18} + (\frac{1}{3})^2 = \frac{1}{6}$
+\par
+$E(C) = 10 + 20(\frac{1}{3}) + 4(\frac{1}{6}) = 10 + \frac{22}{3} \approx \mathbf{17.33}$
+
+\subhead{Alt. Formula (Non-negative Y)}
+$E(Y) = \int_0^{\infty}[1-F(y)]dy$
+
+\partheading{PART 5: UNIFORM (Sec 4.4)}
+
+\subhead{$Y \sim U(a,b)$}
+\textbf{PDF:} $f(y) = \frac{1}{b-a}$ for $a \le y \le b$
+\par
+\textbf{CDF:} $F(y) = \begin{cases}0 & y<a \\ \frac{y-a}{b-a} & a \le y \le b \\ 1 & y>b\end{cases}$
+
+\subhead{Parameters}
+$\mu = \frac{a+b}{2}$ \quad $\sigma^2 = \frac{(b-a)^2}{12}$ \quad $m(t) = \frac{e^{tb}-e^{ta}}{t(b-a)}$
+
+\subhead{Probability (Rectangle Area)}
+$P(c \le Y \le d) = \frac{d-c}{b-a}$ (for $c,d \in [a,b]$)
+
+\partheading{PART 6: NORMAL (Sec 4.5)}
+
+\subhead{$Y \sim N(\mu, \sigma^2)$}
+\textbf{PDF:} $f(y) = \frac{1}{\sigma\sqrt{2\pi}}e^{-(y-\mu)^2/(2\sigma^2)}$ (never integrate by hand!)
+\par
+\textbf{Properties:} Symmetric, Mean=Median=Mode=$\mu$
+
+\subhead{\marker Z-Score (Standardization)}
+$$Z = \frac{Y-\mu}{\sigma} \sim N(0,1)$$
+\textbf{Interpretation:} \# of std. deviations from mean
+
+\subhead{Find Probability ("Forward")}
+1. Standardize: $Z = \frac{y-\mu}{\sigma}$
+\par
+2. Use given $P(Z<z)$ value or symmetry
+
+\subhead{Example: $Y \sim N(10,4)$, find $P(Y>13)$}
+$\mu=10, \sigma^2=4 \implies \sigma=2$
+\par
+$Z = \frac{13-10}{2} = 1.5$
+\par
+$P(Y>13) = P(Z>1.5)$. Given $P(Z>1.5)=0.0668$, answer is $\mathbf{0.0668}$.
+
+\subhead{Find Value ("Backward")}
+1. Find $z$ from given $P(Z \le z)$
+\par
+2. Un-standardize: $y = \mu + z\sigma$
+
+\subhead{Example: 90th percentile of $Y \sim N(100,25)$}
+$\mu=100, \sigma^2=25 \implies \sigma=5$
+\par
+Given $P(Z \le 1.28) = 0.90$, so $z=1.28$
+\par
+$y = 100 + (1.28)(5) = 100 + 6.4 = \mathbf{106.4}$
+
+\subhead{Example: Unit Conversion}
+Temp (C): $Y \sim N(10, 100)$. Find $P(\text{Temp} \le 59^\circ F)$.
+\par
+Convert: $C = (59-32) \times 5/9 = 15^\circ C$
+\par
+$Z = \frac{15-10}{10} = 0.5 \implies P(Y \le 15) = P(Z \le 0.5)$
+
+\subhead{Empirical Rule}
+$P(\mu \pm 1\sigma) \approx 68\%$ \quad $P(\mu \pm 2\sigma) \approx 95\%$ \quad $P(\mu \pm 3\sigma) \approx 99.7\%$
+
+\subhead{MGF}
+$m(t) = e^{\mu t + \frac{1}{2}\sigma^2 t^2}$ \quad Standard Normal: $m(t) = e^{t^2/2}$
+
+\subhead{Example: Identify $m(t) = e^{10t+2t^2}$}
+Match: $\mu t = 10t \implies \mu = 10$
+\par
+$\frac{1}{2}\sigma^2 t^2 = 2t^2 \implies \sigma^2 = 4$
+\par
+Therefore: $Y \sim \mathbf{N(10, 4)}$
+
+\partheading{PART 7: GAMMA FAMILY (Sec 4.6)}
+
+\subhead{Gamma Function}
+$\Gamma(\alpha) = \int_0^{\infty} y^{\alpha-1}e^{-y}dy$
+\par
+\marker $\Gamma(n) = (n-1)!$ \quad $\Gamma(1/2) = \sqrt{\pi}$ \quad $\Gamma(\alpha) = (\alpha-1)\Gamma(\alpha-1)$
+
+\subhead{Gamma Distribution: $Y \sim \text{Gamma}(\alpha, \beta)$}
+\textbf{PDF:} $f(y) = \frac{1}{\Gamma(\alpha)\beta^\alpha}y^{\alpha-1}e^{-y/\beta}$ ($y \ge 0$)
+\par
+$\mu = \alpha\beta$ \quad $\sigma^2 = \alpha\beta^2$ \quad $m(t) = (1-\beta t)^{-\alpha}$
+
+\subhead{Exponential: $Y \sim \text{Exp}(\beta)$ [Gamma with $\alpha=1$]}
+\textbf{PDF:} $f(y) = \frac{1}{\beta}e^{-y/\beta}$ ($y \ge 0$)
+\par
+$\mu = \beta$ \quad $\sigma^2 = \beta^2$ \quad $m(t) = (1-\beta t)^{-1}$
+\par
+\marker \textbf{Memoryless:} $P(Y>a+b|Y>a) = P(Y>b)$
+
+\subhead{Example: Earthquake Wait Time}
+$X \sim$ Exp$(\beta=2.4)$. Find $P(X \ge 3|X \ge 2)$.
+\par
+Memoryless: $P(X \ge 2+1|X \ge 2) = P(X \ge 1)$
+\par
+$P(X \ge 1) = e^{-1/2.4} \approx \mathbf{0.659}$
+
+\subhead{Chi-Square: $Y \sim \chi^2(v)$ [Gamma with $\alpha=v/2, \beta=2$]}
+\textbf{PDF:} $f(y) = \frac{1}{\Gamma(v/2)2^{v/2}}y^{v/2-1}e^{-y/2}$ ($y \ge 0$)
+\par
+$\mu = v$ \quad $\sigma^2 = 2v$ \quad $m(t) = (1-2t)^{-v/2}$
+
+\subhead{Gamma Family Summary}
+\tiny
+\begin{tabular}{@{}llll@{}}
+\textbf{Dist.} & \textbf{$\mu$} & \textbf{$\sigma^2$} & \textbf{MGF} \\
+Gamma & $\alpha\beta$ & $\alpha\beta^2$ & $(1-\beta t)^{-\alpha}$ \\
+Exp & $\beta$ & $\beta^2$ & $(1-\beta t)^{-1}$ \\
+$\chi^2$ & $v$ & $2v$ & $(1-2t)^{-v/2}$ \\
+\end{tabular}
+\normalsize
+
+\subhead{Example: Identify from MGF}
+Given $M_J(t) = (1-2t)^{-3}$
+\par
+Match Gamma form: $\beta=2, \alpha=3$
+\par
+$\mu = (3)(2) = \mathbf{6}$ \quad $\sigma^2 = (3)(2^2) = \mathbf{12}$
+
+\subhead{Example: Find Parameters (Backward)}
+$Y \sim$ Gamma$(\alpha,\beta)$ with $E(Y)=20$, $V(Y)=100$. Find $\alpha,\beta$.
+\par
+$\alpha\beta = 20$ and $\alpha\beta^2 = 100$
+\par
+Divide: $\frac{\alpha\beta^2}{\alpha\beta} = \frac{100}{20} \implies \beta = \mathbf{5}$
+\par
+$\alpha(5) = 20 \implies \alpha = \mathbf{4}$
+
+\partheading{PART 8: BETA (Sec 4.7)}
+
+\subhead{Beta Function}
+$B(\alpha,\beta) = \int_0^1 y^{\alpha-1}(1-y)^{\beta-1}dy = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$
+
+\subhead{Beta Distribution: $Y \sim \text{Beta}(\alpha,\beta)$}
+\textbf{PDF:} $f(y) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}y^{\alpha-1}(1-y)^{\beta-1}$ ($0 \le y \le 1$)
+\par
+$\mu = \frac{\alpha}{\alpha+\beta}$ \quad $\sigma^2 = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$
+
+\subhead{\marker Identification Trick}
+Given $f(y) = ky^a(1-y)^b$ for $0 \le y \le 1$:
+\par
+1. Match exponents: $\alpha = a+1$, $\beta = b+1$
+\par
+2. $k = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}$
+\par
+3. Use shortcut formulas for $\mu, \sigma^2$
+
+\subhead{Example: $f(y) = ky^3(1-y)^2$, find $k$, $\mu$, $\sigma^2$}
+Match: $\alpha-1=3 \implies \alpha=4$, $\beta-1=2 \implies \beta=3$
+\par
+$k = \frac{\Gamma(7)}{\Gamma(4)\Gamma(3)} = \frac{6!}{3! \cdot 2!} = \frac{720}{12} = \mathbf{60}$
+\par
+$\mu = \frac{4}{4+3} = \mathbf{4/7}$ \quad $\sigma^2 = \frac{(4)(3)}{(7)^2(8)} = \frac{12}{392} = \mathbf{3/98}$
+
+\subhead{Special Case}
+Beta$(1,1) = $ Uniform$(0,1)$
+
+\partheading{PART 9: TCHEBYSHEFF (Sec 4.10)}
+
+\subhead{\marker The Theorem (ANY distribution)}
+For $k > 1$:
+\par
+$P(|Y-\mu| < k\sigma) \ge 1 - \frac{1}{k^2}$ \quad (within $k\sigma$)
+\par
+$P(|Y-\mu| \ge k\sigma) \le \frac{1}{k^2}$ \quad (outside $k\sigma$)
+
+\subhead{Common Values}
+$k=2$: At least 75\% within $\mu \pm 2\sigma$
+\par
+$k=3$: At least 88.9\% within $\mu \pm 3\sigma$
+
+\subhead{Example: $\mu=50, \sigma=5$, find $P(40<Y<60)$}
+Interval is $\mu \pm k\sigma$: $k\sigma = 60-50=10 \implies k=2$
+\par
+$P(40<Y<60) \ge 1-\frac{1}{4} = \mathbf{0.75}$ (at least 75\%)
+
+\subhead{Find Interval ("Backward")}
+Given probability $p$, solve: $1 - \frac{1}{k^2} = p \implies k = \sqrt{\frac{1}{1-p}}$
+\par
+Interval: $(\mu - k\sigma, \mu + k\sigma)$
+
+\subhead{Example: Cover 8/9 of data, $\mu=1000, \sigma=100$}
+$1-\frac{1}{k^2} = 8/9 \implies k^2=9 \implies k=3$
+\par
+Interval: $(1000-300, 1000+300) = \mathbf{(700, 1300)}$
+
+\subhead{Tchebysheff vs Empirical Rule}
+\scriptsize
+\begin{tabular}{@{}lll@{}}
+\textbf{Interval} & \textbf{Tcheb. (Any)} & \textbf{Emp. (Normal)} \\
+$\mu \pm 1\sigma$ & $\ge 0\%$ & $\approx 68\%$ \\
+$\mu \pm 2\sigma$ & $\ge 75\%$ & $\approx 95\%$ \\
+$\mu \pm 3\sigma$ & $\ge 88.9\%$ & $\approx 99.7\%$ \\
+\end{tabular}
+\normalsize
+
+\partheading{PART 10: ADVANCED TOPICS}
+
+\subhead{\marker Mixed Distributions (Sec 4.11)}
+Has discrete spikes (PMF) + continuous regions (PDF)
+\par
+\textbf{CDF:} $F(y) = c_1 F_{disc}(y) + c_2 F_{cont}(y)$ where $c_1+c_2=1$
+\par
+\textbf{E(Y):} $E(Y) = c_1 E(Y_{disc}) + c_2 E(Y_{cont})$
+\par
+\textbf{MGF:} $m(t) = c_1 m_{disc}(t) + c_2 m_{cont}(t)$
+
+\subhead{Example: $M(t) = \frac{1}{3(2-t)} + \frac{2}{3(3-t)}$}
+Rewrite: $\frac{1}{3} \cdot \frac{0.5}{1-0.5t} + \frac{2}{3} \cdot \frac{1/3}{1-(1/3)t}$
+\par
+Mixture: $c_1=1/3$ for Exp$(0.5)$, $c_2=2/3$ for Exp$(1/3)$
+
+\subhead{Example: Bank Wait Time (CDF)}
+$P(\text{0 people}) = 0.5$, $P(\text{1 person}) = 0.5$. Service $S \sim$ Exp$(\lambda)$.
+\par
+$W=0$ if 0 people (discrete). $W=S$ if 1 person (continuous).
+\par
+$F(w) = 0.5(1) + 0.5(1-e^{-\lambda w}) = 1 - 0.5e^{-\lambda w}$ ($w \ge 0$)
+\par
+Note: $F(0) = 0.5$ (jump at 0)
+
+\subhead{\marker Reading Discrete MGF}
+$m(t) = \sum e^{ty}p(y)$ \quad Read probabilities from terms
+
+\subhead{Example: $m(t) = \frac{1}{6}e^{-2t} + \frac{1}{3}e^{-t} + \frac{1}{4}e^{t} + \frac{1}{4}e^{2t}$}
+$P(Y=-2)=1/6$, $P(Y=-1)=1/3$, $P(Y=1)=1/4$, $P(Y=2)=1/4$
+\par
+$P(|Y| \le 1) = P(-1) + P(1) = 1/3 + 1/4 = \mathbf{7/12}$
+
+\subhead{\marker Higher Moments: $E(Y^k) = m^{(k)}(0)$}
+\textbf{Gamma Shortcut:} $E(Y^k) = \frac{\Gamma(\alpha+k)\beta^k}{\Gamma(\alpha)}$
+
+\subhead{Example: $E(X^3)$ for Gamma$(10,2)$}
+$E(X^3) = \frac{\Gamma(13) \cdot 8}{\Gamma(10)} = \frac{12! \cdot 8}{9!} = 1320 \cdot 8 = \mathbf{10560}$
+
+\subhead{\marker Cumulant Generating Function}
+$S(t) = \ln[m(t)]$ \quad $S'(0) = \mu$ \quad $S''(0) = \sigma^2$
+\par
+Faster than standard MGF method for some distributions
+
+\subhead{\marker When MGFs Don't Exist}
+MGF exists only if $E[e^{tY}]$ is finite for $t$ near 0
+\par
+\textbf{Cauchy:} $f(x) = \frac{1}{\pi(1+x^2)}$ has no MGF, no moments
+
+\subhead{\marker Full E(Y) Formula (any R.V.)}
+$E(Y) = \int_0^{\infty}[1-F(y)]dy - \int_0^{\infty}F(-y)dy$
+
+\subhead{\marker PDF from Geometric Probability}
+\textbf{Example: Dart hits circle radius $r$ uniformly. $X=$ distance from center.}
+\par
+$F(x) = P(X \le x) = \frac{\pi x^2}{\pi r^2} = \frac{x^2}{r^2}$ ($0 \le x \le r$)
+\par
+$f(x) = F'(x) = \frac{2x}{r^2}$ ($0 \le x \le r$)
+
+\subhead{\marker Symmetry Shortcut (Odd Functions)}
+\textbf{Example: $f(x) = (\lambda/2)e^{-\lambda|x|}$. Find $E(X)$.}
+\par
+$g(x) = xe^{-\lambda|x|}$ is odd: $g(-x) = -g(x)$
+\par
+Integral of odd function from $-\infty$ to $\infty$ = 0
+\par
+Therefore $E(X) = \mathbf{0}$ by symmetry (no calculation needed)
+
+\partheading{QUICK REFERENCE}
+
+\subhead{Key Formulas}
+\textbf{Z-Score:} $Z = \frac{Y-\mu}{\sigma}$ \quad \textbf{Var Shortcut:} $\sigma^2 = E(Y^2) - [E(Y)]^2$
+\par
+\textbf{PDF$\leftrightarrow$CDF:} $F(y) = \int_{-\infty}^y f(t)dt$ \quad $f(y) = F'(y)$
+\par
+\textbf{Tcheb:} $P(|Y-\mu|<k\sigma) \ge 1-\frac{1}{k^2}$
+
+\subhead{Distribution Identification Flowchart}
+\textbf{MGF Form} $\to$ \textbf{Distribution}
+\par
+$(pe^t+q)^n$ $\to$ Binomial$(n,p)$
+\par
+$e^{\lambda(e^t-1)}$ $\to$ Poisson$(\lambda)$
+\par
+$(1-\beta t)^{-\alpha}$ $\to$ Gamma$(\alpha,\beta)$
+\par
+$(1-\beta t)^{-1}$ $\to$ Exp$(\beta)$
+\par
+$(1-2t)^{-v/2}$ $\to$ $\chi^2(v)$
+\par
+$e^{\mu t + \frac{1}{2}\sigma^2 t^2}$ $\to$ Normal$(\mu,\sigma^2)$
+
+\end{multicols}
+\end{document}

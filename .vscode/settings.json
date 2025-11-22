@@ -1,0 +1,27 @@
+{
+  "latex-workshop.latex.tools": [
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOCFILE%"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "pdflatex",
+      "tools": [
+        "pdflatex"
+      ]
+    }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "files.associations": {
+    "*.tex": "latex"
+  },
+  "latex-workshop.formatting.latex": "latexindent",
+  "C_Cpp_Runner.msvcBatchPath": ""
+}
