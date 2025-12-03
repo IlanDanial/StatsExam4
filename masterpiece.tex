@@ -1,0 +1,296 @@
+\documentclass[8pt]{extarticle}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+
+\geometry{margin=0.25in, top=0.2in, bottom=0.2in}
+\setlength{\columnsep}{0.15in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1pt}
+
+% Reduce section spacing
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+\titlespacing*{\subsection}{0pt}{2pt}{0.5pt}
+
+% Make section titles smaller
+\titleformat{\section}{\normalfont\fontsize{10}{11}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\fontsize{9}{10}\bfseries}{\thesubsection}{1em}{}
+
+\title{\vspace{-1.3cm}\textbf{\fontsize{12}{14}\selectfont Probability \& Statistics Quick Reference}}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+\vspace{-0.8cm}
+
+\begin{multicols}{2}
+
+\section*{Gamma \& Beta Functions}
+
+\textbf{Gamma Function:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $\Gamma(n) = (n-1)!$ for $n \in \mathbb{Z}^+$
+    \item $\Gamma(\alpha+1) = \alpha \cdot \Gamma(\alpha)$
+    \item $\Gamma(1) = 1$, $\Gamma(1/2) = \sqrt{\pi}$
+    \item $\int_0^\infty x^{\alpha-1} e^{-\beta x} dx = \frac{\Gamma(\alpha)}{\beta^\alpha}$
+    \item $(y + \alpha - 1)! = \binom{y+\alpha-1}{y} (y!)(\alpha-1)!$ for integer $\alpha$
+\end{itemize}
+
+\textbf{Beta Function:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $B(\alpha, \beta) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$
+    \item $B(\alpha, \beta) = \int_0^1 t^{\alpha-1}(1-t)^{\beta-1} dt$
+\end{itemize}
+
+\section*{Expectation \& Variance Laws}
+
+\textbf{Law of Total Expectation:}
+$$E[X] = E[E[X|\theta]]$$
+
+\textbf{Law of Total Variance:}
+$$\text{Var}(X) = E[\text{Var}(X|\theta)] + \text{Var}(E[X|\theta])$$
+
+\textbf{Variance Properties:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $\text{Var}(X) = E[X^2] - (E[X])^2$
+    \item $\text{Var}(aX + b) = a^2 \text{Var}(X)$
+    \item $\text{Var}(aX + bY) = a^2\text{Var}(X) + b^2\text{Var}(Y) + 2ab\text{Cov}(X,Y)$
+\end{itemize}
+
+\textbf{Variance of Sum:}
+$$\text{Var}\left(\sum_{i=1}^n X_i\right) = \sum_{i=1}^n \text{Var}(X_i) + 2\sum_{1\leq i<j\leq n} \text{Cov}(X_i, X_j)$$
+
+\section*{Covariance \& Correlation}
+
+\textbf{Covariance:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $\text{Cov}(X,Y) = E[XY] - E[X]E[Y]$
+    \item $\text{Cov}(X,Y) = E[(X-\mu_X)(Y-\mu_Y)]$
+    \item $\text{Cov}(X,X) = \text{Var}(X)$
+    \item $\text{Cov}(aX + b, cY + d) = ac \cdot \text{Cov}(X,Y)$
+    \item $\text{Cov}(X, Y+Z) = \text{Cov}(X,Y) + \text{Cov}(X,Z)$
+    \item $\text{Cov}(X, X+Y) = \text{Var}(X) + \text{Cov}(X,Y)$
+    \item $\text{Cov}(X, X-Y) = \text{Var}(X) - \text{Cov}(X,Y)$
+    \item If $X,Y$ independent: $\text{Cov}(X,Y) = 0$
+\end{itemize}
+
+\textbf{Correlation:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $\rho(X,Y) = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y} = \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}}$
+    \item $-1 \leq \rho(X,Y) \leq 1$
+    \item If $X,Y$ independent: $\rho(X,Y) = 0$ (converse not true)
+\end{itemize}
+
+\section*{Conditional Distributions}
+
+\textbf{Conditional Density/PMF:}
+$$f_{X|Y=b}(x) = \frac{f_{X,Y}(x,b)}{f_Y(b)}$$
+
+\textbf{Conditional Expectation:}
+$$E[X|Y=b] = \int_{-\infty}^\infty x \cdot f_{X|Y=b}(x) dx$$
+$$E[X|Y=b] = \sum_x x \cdot P(X=x|Y=b)$$
+
+\section*{Marginal Distributions}
+
+\textbf{From Joint to Marginal:}
+$$f_X(x) = \int_{-\infty}^\infty f_{X,Y}(x,y) dy$$
+$$P(X=x) = \sum_y P(X=x, Y=y)$$
+
+\textbf{Hierarchical Models:}
+$$f_X(x) = \int_{-\infty}^\infty f_{X|\theta}(x|\theta) f_\theta(\theta) d\theta$$
+$$P(X=x) = \sum_\theta P(X=x|\theta) P(\theta)$$
+
+\section*{Transformation Methods}
+
+\textbf{CDF Method:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item Find $F_Y(y) = P(Y \leq y) = P(g(X) \leq y)$
+    \item Solve for $X$: $P(X \leq h(y))$ or $P(X \geq h(y))$
+    \item Differentiate: $f_Y(y) = \frac{d}{dy}F_Y(y)$
+\end{itemize}
+
+\textbf{For $Y = g(X)$ (differentiable, monotonic):}
+$$f_Y(y) = f_X(g^{-1}(y)) \cdot \left|\frac{d}{dy}g^{-1}(y)\right|$$
+
+\section*{Common Distributions}
+
+\subsection*{Uniform: $X \sim \text{Unif}[a,b]$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PDF: $f(x) = \frac{1}{b-a}$ for $a \leq x \leq b$
+    \item $E[X] = \frac{a+b}{2}$
+    \item $\text{Var}(X) = \frac{(b-a)^2}{12}$
+\end{itemize}
+
+\textbf{Discrete Uniform on $\{a, a+1, \ldots, b\}$:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PMF: $P(X=k) = \frac{1}{b-a+1}$
+    \item $E[X] = \frac{a+b}{2}$
+    \item $\text{Var}(X) = \frac{(b-a+1)^2 - 1}{12}$
+\end{itemize}
+
+\subsection*{Exponential: $X \sim \text{Exp}(\lambda)$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PDF: $f(x) = \lambda e^{-\lambda x}$, $x \geq 0$
+    \item $E[X] = \frac{1}{\lambda}$
+    \item $\text{Var}(X) = \frac{1}{\lambda^2}$
+    \item Memoryless: $P(X > s+t | X > s) = P(X > t)$
+\end{itemize}
+
+\subsection*{Binomial: $X \sim \text{Bin}(n, p)$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PMF: $P(X=k) = \binom{n}{k} p^k (1-p)^{n-k}$
+    \item $E[X] = np$
+    \item $\text{Var}(X) = np(1-p)$
+\end{itemize}
+
+\subsection*{Beta: $X \sim \text{Beta}(\alpha, \beta)$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PDF: $f(x) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1}$, $0 < x < 1$
+    \item $E[X] = \frac{\alpha}{\alpha+\beta}$
+    \item $\text{Var}(X) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$
+\end{itemize}
+
+\subsection*{Poisson: $X \sim \text{Pois}(\lambda)$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PMF: $P(X=k) = \frac{\lambda^k}{k!} e^{-\lambda}$
+    \item $E[X] = \lambda$
+    \item $\text{Var}(X) = \lambda$
+\end{itemize}
+
+\subsection*{Gamma: $X \sim \text{Gamma}(r, \beta)$}
+\textit{Shape-rate parameterization}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PDF: $f(x) = \frac{\beta^r}{\Gamma(r)} x^{r-1} e^{-\beta x}$, $x > 0$
+    \item $E[X] = \frac{r}{\beta}$
+    \item $\text{Var}(X) = \frac{r}{\beta^2}$
+\end{itemize}
+
+\subsection*{Normal: $X \sim N(\mu, \sigma^2)$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PDF: $f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left[-\frac{(x-\mu)^2}{2\sigma^2}\right]$
+    \item $E[X] = \mu$
+    \item $\text{Var}(X) = \sigma^2$
+    \item If $Z \sim N(0,1)$, then $Z^2 \sim \chi^2_1 \sim \text{Gamma}(1/2, 1/2)$
+\end{itemize}
+
+\subsection*{Chi-Square: $X \sim \chi^2_k$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PDF: $f(x) = \frac{1}{2^{k/2}\Gamma(k/2)} x^{k/2-1} e^{-x/2}$, $x > 0$
+    \item $E[X] = k$
+    \item $\text{Var}(X) = 2k$
+    \item Equivalent to $\text{Gamma}(k/2, 1/2)$
+\end{itemize}
+
+\subsection*{Negative Binomial: $X \sim \text{NB}(r, p)$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PMF: $P(X=k) = \binom{k+r-1}{k} p^r (1-p)^k$
+    \item $E[X] = \frac{r(1-p)}{p}$
+    \item $\text{Var}(X) = \frac{r(1-p)}{p^2}$
+\end{itemize}
+
+\columnbreak
+
+\subsection*{Multinomial: $\mathbf{X} \sim \text{Multi}(n, \mathbf{p})$}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PMF: $P(\mathbf{X}=\mathbf{x}) = \frac{n!}{x_1!\cdots x_k!} p_1^{x_1} \cdots p_k^{x_k}$
+    \item $E[X_i] = np_i$
+    \item $\text{Var}(X_i) = np_i(1-p_i)$
+    \item $\text{Cov}(X_i, X_j) = -np_ip_j$ for $i \neq j$
+\end{itemize}
+
+\subsection*{Dirichlet: $\mathbf{p} \sim \text{Dir}(\boldsymbol{\alpha})$}
+Let $\alpha_0 = \sum_{i=1}^k \alpha_i$
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item PDF: $f(\mathbf{p}) = \frac{\Gamma(\alpha_0)}{\prod_{i=1}^k \Gamma(\alpha_i)} \prod_{i=1}^k p_i^{\alpha_i-1}$
+    \item $E[p_i] = \frac{\alpha_i}{\alpha_0}$
+    \item $\text{Var}(p_i) = \frac{\alpha_i(\alpha_0-\alpha_i)}{\alpha_0^2(\alpha_0+1)}$
+    \item $\text{Cov}(p_i, p_j) = -\frac{\alpha_i\alpha_j}{\alpha_0^2(\alpha_0+1)}$ for $i \neq j$
+\end{itemize}
+
+\section*{Hierarchical Distributions}
+
+\subsection*{1. Beta-Binomial}
+$X | p \sim \text{Bin}(n, p)$, $p \sim \text{Beta}(\alpha, \beta)$
+
+\textbf{Marginal PMF:}
+$$P(X=k) = \binom{n}{k} \frac{\Gamma(\alpha+\beta)\Gamma(k+\alpha)\Gamma(n-k+\beta)}{\Gamma(\alpha)\Gamma(\beta)\Gamma(n+\alpha+\beta)}$$
+
+\textbf{Moments:}
+$$E[X] = \frac{n\alpha}{\alpha+\beta}$$
+$$\text{Var}(X) = \frac{n\alpha\beta(n+\alpha+\beta)}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
+
+\subsection*{2. Gamma-Poisson (Negative Binomial)}
+$X | \lambda \sim \text{Pois}(\lambda)$, $\lambda \sim \text{Gamma}(r, \beta)$
+
+\textbf{Marginal PMF:}
+$$P(X=k) = \binom{k+r-1}{k} \left(\frac{\beta}{\beta+1}\right)^r \left(\frac{1}{\beta+1}\right)^k$$
+This is $\text{NB}\left(r, \frac{\beta}{\beta+1}\right)$
+
+\textbf{Moments:}
+$$E[X] = \frac{r}{\beta}$$
+$$\text{Var}(X) = \frac{r(\beta+1)}{\beta^2}$$
+
+\subsection*{3. Normal-Normal (Random Mean)}
+$X | \mu \sim N(\mu, \sigma^2)$, $\mu \sim N(\mu_0, \tau^2)$
+
+\textbf{Marginal:} $X \sim N(\mu_0, \sigma^2 + \tau^2)$
+
+\textbf{Moments:}
+$$E[X] = \mu_0$$
+$$\text{Var}(X) = \sigma^2 + \tau^2$$
+
+\subsection*{4. Dirichlet-Multinomial}
+$\mathbf{X} | \mathbf{p} \sim \text{Multi}(n, \mathbf{p})$, $\mathbf{p} \sim \text{Dir}(\boldsymbol{\alpha})$
+
+\textbf{Marginal PMF:}
+$$P(\mathbf{X}=\mathbf{x}) = \binom{n}{x_1, \ldots, x_k} \frac{\Gamma(\alpha_0)}{\Gamma(n+\alpha_0)} \prod_{i=1}^k \frac{\Gamma(x_i + \alpha_i)}{\Gamma(\alpha_i)}$$
+
+\textbf{Moments:}
+$$E[X_i] = \frac{n\alpha_i}{\alpha_0}$$
+$$\text{Var}(X_i) = \frac{n\alpha_i(\alpha_0-\alpha_i)(n+\alpha_0)}{\alpha_0^2(\alpha_0+1)}$$
+$$\text{Cov}(X_i, X_j) = -\frac{n\alpha_i\alpha_j(n+\alpha_0)}{\alpha_0^2(\alpha_0+1)} \text{ for } i \neq j$$
+
+\section*{Joint Distributions}
+
+\textbf{Independence:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $f_{X,Y}(x,y) = f_X(x) \cdot f_Y(y)$
+    \item $P(X=x, Y=y) = P(X=x) \cdot P(Y=y)$
+    \item If independent: $E[XY] = E[X]E[Y]$
+    \item If independent: $\text{Var}(X+Y) = \text{Var}(X) + \text{Var}(Y)$
+\end{itemize}
+
+\textbf{Sum of Independent Variables:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item If $X \sim N(\mu_1, \sigma_1^2)$, $Y \sim N(\mu_2, \sigma_2^2)$ independent:
+    $$X + Y \sim N(\mu_1+\mu_2, \sigma_1^2+\sigma_2^2)$$
+    \item If $X \sim \text{Pois}(\lambda_1)$, $Y \sim \text{Pois}(\lambda_2)$ independent:
+    $$X + Y \sim \text{Pois}(\lambda_1+\lambda_2)$$
+    \item If $X \sim \text{Gamma}(r_1, \beta)$, $Y \sim \text{Gamma}(r_2, \beta)$ independent:
+    $$X + Y \sim \text{Gamma}(r_1+r_2, \beta)$$
+\end{itemize}
+
+\section*{Common Transformation Examples}
+
+\textbf{If $X \sim \text{Unif}[0,1]$:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $Y = \sqrt{X}$ has PDF $f_Y(y) = 2y$, $0 \leq y \leq 1$
+    \item $Y = e^X$ has PDF $f_Y(y) = \frac{1}{y}$, $1 \leq y \leq e$
+    \item $Y = -\ln X \sim \text{Exp}(1)$
+\end{itemize}
+
+\textbf{If $Z \sim N(0,1)$:}
+\begin{itemize}[leftmargin=*, noitemsep, topsep=0pt]
+    \item $Z^2 \sim \chi^2_1$
+    \item $Y = \mu + \sigma Z \sim N(\mu, \sigma^2)$
+\end{itemize}
+
+\end{multicols}
+
+\end{document}
